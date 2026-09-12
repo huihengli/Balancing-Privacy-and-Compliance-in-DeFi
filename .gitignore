@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Compiled / generated artifacts (regenerate via build.ps1)
+circuits/*.r1cs
+circuits/*.sym
+circuits/*.wasm
+circuits/*_js/
+circuits/*.zkey
+circuits/*.ptau
+circuits/*.wtns
+circuits/*_proof.json
+circuits/*_public.json
+circuits/*_verification_key.json
+circuits/*_verifier.sol
+circuits/input_*.json
+circuits/metrics_summary.csv

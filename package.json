@@ -1,0 +1,12 @@
+{
+  "name": "zk-auditable-crosschain",
+  "version": "1.0.0",
+  "description": "Zero-knowledge compliance circuits for a privacy-preserving, auditable cross-chain framework: EdDSA signature validity, AML threshold check, and VASP blacklist non-membership proof.",
+  "license": "GPL-3.0",
+  "private": true,
+  "type": "commonjs",
+  "dependencies": {
+    "circomlib": "^2.0.5",
+    "circomlibjs": "^0.1.7"
+  }
+}
