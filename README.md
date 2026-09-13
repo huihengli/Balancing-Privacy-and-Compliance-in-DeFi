@@ -67,7 +67,7 @@ powershell -ExecutionPolicy Bypass -File build.ps1
 | `Verify_ms` | on-chain verifier runtime |
 | `Proof_bytes` | Groth16 proof size |
 
-To measure **on-chain verification gas**, deploy the exported `circuits/*_verifier.sol` on Ethereum (Sepolia) with Hardhat; Groth16 verification gas is essentially constant (~230k) regardless of constraint count.
+To measure **on-chain verification gas**, deploy the exported `circuits/*_verifier.sol` on Ethereum (Sepolia) with Hardhat; Groth16 verification gas is essentially constant (~215 k) regardless of constraint count.
 
 ## Reproducing the paper's experiments
 
