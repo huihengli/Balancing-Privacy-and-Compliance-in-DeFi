@@ -5,7 +5,7 @@ Zero-knowledge compliance circuits for a **privacy-preserving, auditable cross-c
 | Assertion | Circuit mechanism | Tier |
 |---|---|---|
 | Commitment binding | `commitment === Poseidon(3)(amount, senderId, vaspId)` (public input) | all |
-| Amount validity | `Num2Bits(64)` range proof (0 ≤ amount < 2⁶⁴) | all |
+| Amount validity | `Num2Bits(64)` range proof (0 ≤ amount < $2^{64}$) | all |
 | Signature validity | **EdDSA-Poseidon** over the commitment (circomlib `EdDSAPoseidonVerifier`) | all |
 | AML threshold (Compliance Mark) | `LessThan(64)`: `amount < amlThreshold → isCompliant`; else `auditRequired=1` | medium+ |
 | VASP blacklist | **sorted Poseidon-Merkle non-membership proof** (adjacent leaves `L < v < R`, `pos(R)=pos(L)+1`) | complex |
@@ -70,9 +70,9 @@ To measure **on-chain verification gas**, deploy the exported `circuits/*_verifi
 
 ## Blacklist semantics and assumptions
 
-- The blacklist is a **sorted** Poseidon(2) Merkle tree (depth 10) whose leaves are `[sentinel 0, ...blacklist ids..., sentinel MAX]`, padded with `MAX = 2²⁵²−1`.
-- `vaspId ∉ blacklist` is proven by two adjacent leaves `L < vaspId < R` with `pos(R) == pos(L) + 1` (consecutive leaves), plus membership proofs for `L` and `R`.
-- **Assumptions**: all ids and leaves are `< 2²⁵²` (implicitly enforced by `LessThan(252)`); the tree is maintained sorted by the blacklist authority. Non-membership soundness follows from the standard sorted-tree bracketing argument.
+- The blacklist is a **sorted** Poseidon(2) Merkle tree (depth 10) whose leaves are `[sentinel 0, ...blacklist ids..., sentinel MAX]`, padded with `MAX =` $2^{252}$ `−1`.
+- `vaspId` $\notin$ `blacklist` is proven by two adjacent leaves `L < vaspId < R` with `pos(R) == pos(L) + 1` (consecutive leaves), plus membership proofs for `L` and `R`.
+- **Assumptions**: all ids and leaves are `<` $2^{252}$ (implicitly enforced by `LessThan(252)`); the tree is maintained sorted by the blacklist authority. Non-membership soundness follows from the standard sorted-tree bracketing argument.
 
 ## Test vector
 

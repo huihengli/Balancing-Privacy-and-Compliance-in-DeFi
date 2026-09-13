@@ -15,3 +15,14 @@ circuits/*_verification_key.json
 circuits/*_verifier.sol
 circuits/input_*.json
 circuits/metrics_summary.csv
+
+# PLONK artifacts (regenerate via benchmark_plonk.ps1)
+circuits/*_plonk_vk.json
+circuits/*_plonk_proof.json
+circuits/*_plonk_public.json
+circuits/plonk_metrics_summary.csv
+
+# Hardhat
+hardhat/artifacts/
+hardhat/cache/
+hardhat/types/
