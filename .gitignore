@@ -26,3 +26,7 @@ circuits/plonk_metrics_summary.csv
 hardhat/artifacts/
 hardhat/cache/
 hardhat/types/
+
+# Flask threshold simulator artifacts
+threshold/flask_simulator/node_*.log
+threshold/flask_simulator/flask_threshold_metrics.csv

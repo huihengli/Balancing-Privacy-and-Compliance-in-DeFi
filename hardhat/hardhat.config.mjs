@@ -18,4 +18,12 @@ export default {
       },
     },
   },
+  networks: {
+    sepolia: {
+      type: "http",
+      chainType: "l1",
+      url: process.env.SEPOLIA_RPC_URL ?? "http://127.0.0.1:8545",
+      accounts: process.env.SEPOLIA_PRIVATE_KEY ? [process.env.SEPOLIA_PRIVATE_KEY] : [],
+    },
+  },
 };

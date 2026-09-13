@@ -16,13 +16,24 @@ Signature / range / binding are **hard constraints** (no valid witness exists if
 
 ```
 .
-├── circuits/
+├── circuits/                       # compliance circuits
 │   ├── merkle.circom     # hand-written Poseidon Merkle membership + sorted non-membership
 │   ├── simple.circom     # commitment binding + range + EdDSA-Poseidon signature
 │   ├── medium.circom     # + AML threshold
 │   └── complex.circom    # + VASP blacklist non-membership
+├── hardhat/                       # Solidity contracts + Hardhat measurements
+│   ├── contracts/        # AuditContract, LightClient, LightClientRelease, NoLightClientRelease
+│   ├── scripts/measure_sepolia.ts        # cross-chain gas (Table tab:xchainver)
+│   └── test/ablation_lightclient.mjs     # light-client ablation (Table tab:abl_component)
+├── threshold/
+│   ├── flask_simulator/  # Flask multi-node threshold simulator (Table tab:thresdecrypt)
+│   └── threshold_ablation.py        # single-key vs threshold loopback ablation
+├── inputs/               # deterministic test inputs for the three circuits
+├── results/              # measured metrics (Groth16 + PLONK + threshold CSVs)
 ├── gen_input.js          # generates witness inputs (test transaction)
 ├── build.ps1             # compile → powers-of-tau → zkey → prove/verify → metrics summary
+├── benchmark_plonk.ps1   # PLONK benchmark (Groth16 vs PLONK, Table tab:zksys)
+├── ablation_notes.md     # full ablation-suite runbook
 ├── package.json
 └── README.md
 ```
@@ -57,6 +68,19 @@ powershell -ExecutionPolicy Bypass -File build.ps1
 | `Proof_bytes` | Groth16 proof size |
 
 To measure **on-chain verification gas**, deploy the exported `circuits/*_verifier.sol` on Ethereum (Sepolia) with Hardhat; Groth16 verification gas is essentially constant (~230k) regardless of constraint count.
+
+## Reproducing the paper's experiments
+
+| Paper table | Command |
+|---|---|
+| `tab:zkproof` (Groth16) | `powershell -ExecutionPolicy Bypass -File build.ps1` → `circuits/metrics_summary.csv` |
+| `tab:zksys` (Groth16 vs PLONK) | `powershell -ExecutionPolicy Bypass -File benchmark_plonk.ps1` → `circuits/plonk_metrics_summary.csv` |
+| `tab:xchainver` (cross-chain gas) | `cd hardhat && npm install`, then `npx hardhat run scripts/measure_sepolia.ts --network sepolia` (requires `SEPOLIA_RPC_URL` / `SEPOLIA_PRIVATE_KEY` env vars) |
+| `tab:abl_component` (light client) | `cd hardhat && npx hardhat test test/ablation_lightclient.mjs` |
+| `tab:thresdecrypt` (threshold) | `pip install -r threshold/flask_simulator/requirements.txt && python threshold/flask_simulator/benchmark.py --trials 30` |
+| `tab:abl_component` (threshold loopback) | `python threshold/threshold_ablation.py` |
+
+See `ablation_notes.md` for the full runbook, measurement scopes, and result artifacts.
 
 ## Constraint counts (circom 2.2.3, `--O1`)
 
